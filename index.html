@@ -14,8 +14,10 @@
       <header class="topbar">
         <a class="brand" href="#top" aria-label="Table Notes home"><span class="brand-mark">✦</span> TABLE NOTES</a>
         <div class="topbar-actions">
-          <span class="storage-indicator"><i></i> saved on this device</span>
-          <button class="button button-dark" id="openRecipeDialog">+ Add recipe</button>
+          <span class="storage-indicator" id="accountStatus"><i></i> loading recipes…</span>
+          <button class="text-button" id="loginButton" type="button">Sign in</button>
+          <button class="text-button" id="logoutButton" type="button" hidden>Sign out</button>
+          <button class="button button-dark" id="openRecipeDialog" type="button" hidden>+ Add recipe</button>
         </div>
       </header>
 
@@ -25,8 +27,8 @@
           <h1>What shall we<br /><em>make?</em></h1>
           <p class="hero-copy">Choose a few recipes, then take one calm, complete list to the shop.</p>
           <div class="hero-actions">
-            <button class="button button-accent" id="randomRecipe">✦ Pick for me</button>
-            <button class="text-button" id="clearSelection">Clear selection</button>
+            <button class="button button-accent" id="randomRecipe" type="button">✦ Pick for me</button>
+            <button class="text-button" id="clearSelection" type="button">Clear selection</button>
           </div>
         </div>
         <div class="hero-art" aria-hidden="true"><span>✽</span></div>
@@ -61,13 +63,30 @@
         <div class="field-row"><label>Tag<input name="tag" required placeholder="healthy, comfort, quick…" /></label><label>Tag colour<input name="tagColor" type="color" value="#526d56" /></label></div>
         <div class="field-row"><label>Time<input name="time" placeholder="30 min" /></label><label>Recipe serves<input name="servings" type="number" min="1" value="2" required /></label></div>
         <label>Short description<textarea name="description" rows="2" placeholder="A little note about the recipe"></textarea></label>
-        <label>Card photo path<input name="image" list="image-options" placeholder="assets/recipe-images/my-photo.png" /><datalist id="image-options"><option value="assets/recipe-images/lemony-kale-pasta.png">Lemony kale pasta</option><option value="assets/recipe-images/miso-salmon-bowl.png">Miso salmon bowl</option></datalist><small>Put your own photos in <code>assets/recipe-images</code>, then enter their relative path here.</small></label>
+        <label>Card photo path<input name="image" list="image-options" placeholder="assets/recipe-images/my-photo.png" /><datalist id="image-options"><option value="assets/recipe-images/lemony-kale-pasta.png">Lemony kale pasta</option><option value="assets/recipe-images/miso-salmon-bowl.png">Miso salmon bowl</option></datalist><small>Put your own photos in <code>assets/recipe-images</code>, then enter their relative path here. For other users to see them, commit the image file to GitHub too.</small></label>
         <label>Ingredients <small>One per line: name | quantity | unit | Lidl section</small><textarea name="ingredients" rows="7" required placeholder="Sweet potato | 1 | pc | fruit-veg&#10;Coconut milk | 400 | ml | canned&#10;Red lentils | 250 | g | pasta"></textarea></label>
         <p class="form-note">Quantities are stored as structured data and automatically scale and combine in your list.</p>
         <div class="form-actions"><button class="text-button" id="deleteRecipe" type="button" hidden>Delete recipe</button><span class="form-spacer"></span><button class="text-button" value="cancel">Cancel</button><button class="button button-dark" value="default">Save recipe</button></div>
       </form>
     </dialog>
+
+    <dialog id="authDialog">
+      <form method="dialog" id="loginForm">
+        <div class="dialog-title">
+          <div><p class="eyebrow">YOUR SHARED KITCHEN</p><h2>Sign in</h2></div>
+          <button class="close-button" value="cancel" aria-label="Close">×</button>
+        </div>
+        <p class="auth-copy">Enter the email address you were invited with. We'll send you a secure sign-in link.</p>
+        <label>Email address<input name="email" type="email" autocomplete="email" required placeholder="you@example.com" /></label>
+        <p class="form-note" id="loginMessage" aria-live="polite">Only invited accounts can sign in and edit recipes.</p>
+        <div class="form-actions"><span class="form-spacer"></span><button class="text-button" value="cancel">Cancel</button><button class="button button-dark" id="sendLoginLink" value="default">Email me a sign-in link</button></div>
+      </form>
+    </dialog>
+
     <div class="toast" id="toast" role="status"></div>
+
+    <!-- Supabase browser client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
   </body>
 </html>
